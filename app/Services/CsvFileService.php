@@ -11,6 +11,12 @@ class CsvFileService implements FileProcessServiceInterface
 
     private $column;
 
+    private $validChars = [
+        '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
+        'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T',
+        'U', 'V', 'W', 'X', 'Y', 'Z'
+    ];
+
     public function __construct(array $column = [])
     {
         $this->column = $column;
@@ -59,19 +65,15 @@ class CsvFileService implements FileProcessServiceInterface
     public function GenerateCheckCharacter(string $input)
     {
 
-        $validChars = [
-            '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
-            'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T',
-            'U', 'V', 'W', 'X', 'Y', 'Z'
-        ];
+
         $factor = 2;
         $sum = 0;
-        $n = count($validChars);
+        $n = count($this->validChars);
          // Starting from the right and working leftwards is easier since
          // the initial "factor" will always be "2"
         for ($i = strlen($input) - 1; $i >= 0; $i--)
         {
-        $codePoint = array_search($input[$i], $validChars);
+        $codePoint = array_search($input[$i], $this->validChars);
         $addend = $factor * $codePoint;
         // Alternate the "factor" that each "codePoint" is multiplied by
         $factor = ($factor == 2) ? 1 : 2;
@@ -83,6 +85,6 @@ class CsvFileService implements FileProcessServiceInterface
         // to make it divisible by "n"
         $remainder = $sum % $n;
         $checkCodePoint = ($n - $remainder) % $n;
-        return $validChars[$checkCodePoint];
+        return $this->validChars[$checkCodePoint];
     }
 }
