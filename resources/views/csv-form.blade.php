@@ -74,13 +74,13 @@
         <tbody>
 
         @forelse($csv_data as $data)
-        <tr>
+        <tr @class([
+            'text-success' =>  $data['Verified'],
+        ])>
           <td>
               {{ $data['Date'] ?? '' }}
           </td>
-          <td @class([
-            'text-danger' =>  $data['Verified'],
-        ])>
+          <td>
               {{ $data['TransactionNumber'] ?? '' }}
           </td>
           <td>
